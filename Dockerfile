@@ -1,9 +1,5 @@
 FROM adoptopenjdk:15-jre-hotspot
 ARG APP_VER
-ENV DB_HOST "localhost"
-ENV DB_NAME "undefined"
-ENV DB_USER "undefined"
-ENV DB_PASS "undefined"
 ENV JAVA_OPTS "-Xmx1024m"
 EXPOSE 8880
 
