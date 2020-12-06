@@ -53,7 +53,7 @@ spec:
             secretKeyRef:
               name: db-env
               key: DB_PASS
-        image: 'cr245581600.azurecr.io/jsettlers-server:2.4.00'
+        image: 'jsettlers-server'
         imagePullPolicy: ""
         name: jsettlers-app
         ports:

@@ -70,7 +70,7 @@ then
   kubectl create -f aks-deploy/namespace.yaml
 
   echo -e "\nDeploying resources"
-  cat aks-deploy/{app,db}-*.yaml | kubectl -n jsettlers create -f -
+  kubectl apply -k aks-deploy/
 
   # Wait for the db is ready and run sql scripts
   kubectl -n jsettlers rollout status deploy/db -w
@@ -83,6 +83,7 @@ then
     < jsettlers-$VERSION/src/main/bin/sql/jsettlers-tables-mysql.sql
 
   # Wait for the app is ready
+  kubectl -n jsettlers set image deploy/app jsettlers-app=$CR.azurecr.io/jsettlers-server:$VERSION
   kubectl -n jsettlers rollout status deploy/app -w
   kubectl -n jsettlers get all
 

@@ -1,9 +1,0 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-env
-data:
-  DB_HOST: jsettlers-db
-  DB_PORT: "3306"
-  DB_NAME: socdata
