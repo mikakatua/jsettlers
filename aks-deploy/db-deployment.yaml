@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,9 +27,27 @@ spec:
         io.kompose.service: db
     spec:
       containers:
-      - envFrom:
-        - secretRef:
-            name: db-env
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: app-env
+              key: DB_NAME
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_ROOT_PASS
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_PASS
         image: mariadb:10.5.8
         imagePullPolicy: ""
         livenessProbe:

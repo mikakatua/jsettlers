@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,10 +27,33 @@ spec:
         io.kompose.service: app
     spec:
       containers:
-      - envFrom:
-        - secretRef:
-            name: app-env
-        image: 'cr541779800.azurecr.io/jsettlers-server:2.4.00'
+      - env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-env
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-env
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-env
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_USER
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_PASS
+        image: 'cr245581600.azurecr.io/jsettlers-server:2.4.00'
         imagePullPolicy: ""
         name: jsettlers-app
         ports:
