@@ -1,0 +1,16 @@
+namespace: jsettlers
+
+configMapGenerator:
+- name: app-env
+  env: app.env
+
+secretGenerator:
+- name: db-env
+  env: db.env
+
+resources:
+- app-deployment.yaml
+- app-service.yaml
+- db-data-pvc.yaml
+- db-deployment.yaml
+- db-service.yaml

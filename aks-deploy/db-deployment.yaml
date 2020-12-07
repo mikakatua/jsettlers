@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\cygwin64\usr\local\bin\kompose convert -f docker-compose-aks.yml
+      -o deploy -v
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\cygwin64\usr\local\bin\kompose convert -f docker-compose-aks.yml
+          -o deploy -v
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: app-env
+              key: DB_NAME
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_ROOT_PASS
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-env
+              key: DB_PASS
+        image: mariadb:10.5.8
+        imagePullPolicy: ""
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'SELECT 1;' $MYSQL_DATABASE
+          failureThreshold: 10
+        name: db
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: db-data
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-data
+status: {}
