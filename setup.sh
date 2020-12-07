@@ -14,6 +14,13 @@ then
   echo -e "\nAzure login..."
   az login
 
+  if ! command -v kubectl &> /dev/null
+  then
+    echo -e "\nInstalling kubectl command. Please follow the steps below..."
+    az aks install-cli
+    exit
+  fi
+
   if [ -z "$RG" ]
   then
     RG="rg$(uuidgen)"
@@ -48,12 +55,6 @@ then
       --ssh-key-value "az_rsa.pub" \
       --attach-acr $CR
     popd
-  fi
-
-  if ! command -v kubectl &> /dev/null
-  then
-    echo -e "\nInstalling kubectl command"
-    az aks install-cli
   fi
 
   echo -e "\nSet up K8s environment"
