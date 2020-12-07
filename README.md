@@ -22,7 +22,7 @@ Requirements:
 Instructions:
 1. Rename or copy `sample.env` to `.env`
 1. Edit and set config variables in `.env`
-1. Run the script `./setup.sh`
+1. Run the deployment script `./setup.sh`
 
 ## Cloud deployment
 This setup uses the Kubernetes service in Azure (AKS).
@@ -34,5 +34,6 @@ Requirements:
 
 Instructions:
 1. Edit `azure.env` if you want to use existing Azure resources
-1. Edit and set config variables in `aks-deploy/kustomization.yaml`
-1. Run the script `./setup.sh aks`
+1. Rename or copy `sample.env` to `.env`
+1. Edit and set config variables in `.env`
+1. Run the deployment script `./setup.sh aks`

@@ -2,17 +2,11 @@ namespace: jsettlers
 
 configMapGenerator:
 - name: app-env
-  literals:
-  - DB_HOST=jsettlers-db
-  - DB_PORT="3306"
-  - DB_NAME=socdata
+  env: app.env
 
 secretGenerator:
 - name: db-env
-  literals:
-  - DB_PASS=socpass
-  - DB_USER=socuser
-  - DB_ROOT_PASS=changeme
+  env: db.env
 
 resources:
 - app-deployment.yaml

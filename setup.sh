@@ -66,10 +66,11 @@ then
   docker build --build-arg APP_VER=$VERSION -t $CR.azurecr.io/jsettlers-server:$VERSION .
   docker push $CR.azurecr.io/jsettlers-server:$VERSION
 
-  echo -e "\nCreating jsettle namespace"
+  echo -e "\nCreating jsettlers namespace"
   kubectl create -f aks-deploy/namespace.yaml
 
   echo -e "\nDeploying resources"
+  export $(grep -v '^#' .env | xargs -d '\n')
   kubectl apply -k aks-deploy/
 
   # Wait for the db is ready and run sql scripts
