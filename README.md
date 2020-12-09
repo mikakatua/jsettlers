@@ -16,6 +16,7 @@ You can also play the game online at https://nand.net/jsettlers/
 This setup uses Docker compose.
 
 Requirements:
+- [Java JRE](https://www.oracle.com/java/technologies/javase-jre8-downloads.html) version 1.8 or higher
 - [Docker engine](https://docs.docker.com/engine/install/) 
 - [Docker compose](https://docs.docker.com/compose/install/)
 
@@ -28,6 +29,7 @@ Instructions:
 This setup uses the Kubernetes service in Azure (AKS).
 
 Requirements:
+- [Java JRE](https://www.oracle.com/java/technologies/javase-jre8-downloads.html) version 1.8 or higher
 - An [Azure subscription](https://azure.microsoft.com/en-us/free/)
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Tool for building images as [Docker](https://docs.docker.com/engine/install/)  or [Podman](https://podman.io/getting-started/installation)
