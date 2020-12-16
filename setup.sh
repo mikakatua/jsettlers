@@ -53,7 +53,8 @@ then
       --name $KS \
       --node-count 2 \
       --ssh-key-value "az_rsa.pub" \
-      --attach-acr $CR
+      --attach-acr $CR \
+      --enable-managed-identity
     popd
   fi
 
