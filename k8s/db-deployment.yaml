@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jsettlers-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jsettlers
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: jsettlers
+        tier: db
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DB_NAME
+              name: app-env
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DB_ROOT_PASS
+              name: db-env
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: DB_USER
+              name: db-env
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DB_PASS
+              name: db-env
+        image: mariadb:10.9.3
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'SELECT 1;' $MYSQL_DATABASE
+          failureThreshold: 10
+        name: jsettlers-db
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/mysql
+        - name: db-init
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-data
+      - name: db-init
+        configMap:
+          name: db-init
+

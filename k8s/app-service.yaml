@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jsettlers-app
+spec:
+  ports:
+  - name: "8880"
+    port: 8880
+    targetPort: 8880
+  selector:
+    app: jsettlers
+    tier: app
+  type: NodePort

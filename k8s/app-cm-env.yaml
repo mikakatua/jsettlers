@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-env
+data:
+  DB_HOST: "jsettlers-db"
+  DB_NAME: "socdata"
+  DB_PORT: "3306"
