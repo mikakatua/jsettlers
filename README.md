@@ -25,6 +25,9 @@ Instructions:
 1. Edit and set config variables in `.env`
 1. Run the deployment script `./setup.sh`
 
+## Kubernetes deployment
+Use the manifest provided in the [k8s](k8s) directory.
+
 ## Cloud deployment
 This setup uses the Kubernetes service in Azure (AKS).
 
