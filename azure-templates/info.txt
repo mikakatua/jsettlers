@@ -1,0 +1,2 @@
+az group create --name $resourceGroupName --location $location &&
+az deployment group create --resource-group $resourceGroupName --template-file "$HOME/azuredeploy.json" --parameters adminUsername=$adminUsername dnsLabelPrefix=$dnsLabelPrefix

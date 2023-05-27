@@ -33,7 +33,10 @@ then
   then
     CR="cr$(date +%N)"
     echo -e "\nCreating Container Registry $CR"
-    az acr create --resource-group $RG --name $CR --sku Basic
+#    az acr create --resource-group $RG --name $CR --sku Basic
+    az deployment group create --resource-group $RG \
+      --template-file azure-templates/container-registry.json \
+      --parameters acrName=$CR 
     az acr login --name $CR
   fi
 
@@ -47,15 +50,17 @@ then
   then
     KS="ks$(date +%Y%m%d)"
     echo -e "\nCreating Kubernetes Cluster $KS"
-    pushd ~/.ssh
-    az aks create \
-      --resource-group $RG \
-      --name $KS \
-      --node-count 2 \
-      --ssh-key-value "az_rsa.pub" \
-      --attach-acr $CR \
-      --enable-managed-identity
-    popd
+#    pushd ~/.ssh
+#    az aks create \
+#      --resource-group $RG \
+#      --name $KS \
+#      --node-count 2 \
+#      --ssh-key-value "az_rsa.pub" \
+#      --attach-acr $CR
+#    popd
+    az deployment group create --resource-group $RG \
+      --template-file azure-templates/aks-cluster.json \
+      --parameters clusterName=$KS agentCount=2 sshRSAPublicKey=$(cat ~/.ssh/az_rsa.pub)
   fi
 
   echo -e "\nSet up K8s environment"
